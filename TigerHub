@@ -1,0 +1,61 @@
+if game.PlaceId == 155615604 then
+    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+    local Window = Library.CreateLib("TigerHub", "Sentinel")
+
+    --Main
+    local Main = Window:NewTab("Main--Prison Life--")
+    local MainSection = Main:NewSection("Main")
+    local CreditSection = Main:NewSection("Credits(CyroX and RGBX)")
+    MainSection:NewDropdown("Give Gun", "Gives The LocalPlayer A Gun", {"M9", "Remington 870", "AK-47"}, function(v)
+        local A_1 = game:GetService("Workspace")["Prison_ITEMS"].giver[v].ITEMPICKUP
+        local Event = game:GetService("Workspace").Remote.ItemHandler
+        Event:InvokeServer(A_1)
+    end)
+
+    MainSection:NewDropdown("Gun Mod", "Controller Player tha is a Controller Player", {"M9", "Remington 870", "AK-47"}, function(v)
+        local module = nil
+        if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(v) then
+            module = require(game:GetService("Players").LocalPlayer.Backpack[v].GunStates)
+        elseif game:GetService("Players").LocalPlayer.Character:FindFirstChild(v) then
+            module = require(game:GetService("Players").LocalPlayer.Character[v].GunStates)
+        end
+        if module ~= nil then
+            module["MaxAmmo"] = math.huge
+            module["CurrentAmmo"] = math.huge
+            module["StoredAmmo"] = math.huge
+            module["FireRate"] = 0.000001
+            module["Spread"] = 100
+            module["Range"] = math.huge
+            module["Bullets"] = 10
+            module["ReloadTime"] = 0.000001
+            module["AutoFire"] = true
+            module["Damage"] = math.huge
+        end
+    end)
+
+    --Player
+    local Player = Window:NewTab("Player")
+    local PlayerSection = Player:NewSection("Player")
+    PlayerSection:NewSlider("Walkspeed", "Changes Walkspeed of the Humanoid(Max.500)", 500, 0, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+    end)
+    PlayerSection:NewSlider("JumpPower", "Changes JumpPower of the Humanoid(Max.500)", 500, 0, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
+    end)
+        PlayerSection:NewSlider("MaxHealth", "Changes Health of the Humanoid(Max.500)", 500, 0, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.MaxHealth = v
+    end)
+    PlayerSection:NewSlider("Health", "Its A little Bit Glitchie", 500, 0, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.Health = v
+    end)
+        PlayerSection:NewSlider("Ragdoll Can be changed(Click the 3 Dots)", "Its Might be Fixed", 500 , 0, function(v)
+            game.Players.LocalPlayer.Character.Humanoid.Ragdoll = v
+        end)
+        PlayerSection:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.RightControl, function()
+            Library:ToggleUI()
+        end)
+        PlayerSection:NewSlider("Jump", "Jump", 500, 0, function(v)
+            game.Players.LocalPlayer.Character.Humanoid.Jump = v
+            
+        end)
+    end
